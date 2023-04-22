@@ -49,7 +49,7 @@
 	<form id="url-form">
 		<input type="text" name="url" placeholder="Enter a URL">
 		<br>
-		<input type="submit" value="Check">
+		 <input type="submit" value="Check">
 	</form>
 	<div class="response" id="response"></div>
 	
@@ -61,9 +61,12 @@
 			event.preventDefault();
 			const url = document.querySelector("input[name='url']").value;
 			const scriptUrl = "https://scripts.stay22.com/letmeallez.js";
+			const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+			const fullUrl = proxyUrl + url;
 			
 			const xhr = new XMLHttpRequest();
-			xhr.open("GET", url);
+			xhr.open("GET", fullUrl);
+			xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 			xhr.onreadystatechange = function() {
 				if (xhr.readyState === 4) {
 					if (xhr.status === 200) {
@@ -88,3 +91,4 @@
 	</script>
 </body>
 </html>
+
