@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Got me Allez?</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			text-align: center;
+		}
+		
+		h1 {
+			margin-top: 50px;
+		}
+		
+		input[type="text"] {
+			width: 400px;
+			height: 30px;
+			font-size: 16px;
+			padding: 5px;
+			margin-top: 30px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			outline: none;
+		}
+		
+		input[type="submit"] {
+			width: 100px;
+			height: 30px;
+			font-size: 16px;
+			padding: 5px;
+			margin-top: 10px;
+			background-color: #337ab7;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			outline: none;
+		}
+		
+		.response {
+			margin-top: 30px;
+			font-size: 20px;
+		}
+	</style>
+</head>
+<body>
+	<h1>Got me Allez?</h1>
+	<p>Let's find out shall we?</p>
+	<form id="url-form">
+		<input type="text" name="url" placeholder="Enter a URL">
+		<br>
+		<input type="submit" value="Check">
+	</form>
+	<div class="response" id="response"></div>
+	
+	<script>
+		const form = document.querySelector("#url-form");
+		form.addEventListener("submit", checkAllez);
+		
+		function checkAllez(event) {
+			event.preventDefault();
+			const url = document.querySelector("input[name='url']").value;
+			const scriptUrl = "https://scripts.stay22.com/letmeallez.js";
+			
+			const xhr = new XMLHttpRequest();
+			xhr.open("GET", url);
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === 4) {
+					if (xhr.status === 200) {
+						const head = xhr.responseText.split("<head>")[1].split("</head>")[0];
+						if (head.includes(`src="${scriptUrl}"`)) {
+							showResponse("YES 🙂");
+						} else {
+							showResponse("NO 🙁");
+						}
+					} else {
+						showResponse("Invalid URL");
+					}
+				}
+			};
+			xhr.send();
+		}
+		
+		function showResponse(message) {
+			const response = document.querySelector("#response");
+			response.innerHTML = message;
+		}
+	</script>
+</body>
+</html>
